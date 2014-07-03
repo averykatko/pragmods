@@ -15,7 +15,7 @@ var participant_response_type = 0;
 // Participant check trials:
 //      0 -> The count of each feature is not asked for
 //      1 -> The count of each feature is requested
-var participant_feature_count = 1;
+var participant_feature_count = 0;
 
 // Linguistic framing
 //      0 -> "My favorite friend has a hat"
@@ -181,45 +181,113 @@ var stims_times = [["weekend","Week"],
 // are only 6 stimulus.
 // var stim_index = random(0,stims.length-1);
 // When target_filler_sequence is not equal to zero:
-stimuli_to_show = range(0, 6);
-ordered_stimuli = shuffle(stimuli_to_show);
-stim_index = ordered_stimuli[0]
+
+var within_stim = random(0,stims.length-1);
+///console.log("ws: " + within_stim);
+var remaining_stims = range(0,stims.length-1);
+remaining_stims.splice(within_stim,1);
+///console.log("remaining: " + remaining_stims);
+var between_stim = remaining_stims[random(0,remaining_stims.length-1)];
+///console.log("bs: " + between_stim);
+var stimuli_to_show = [within_stim,within_stim,between_stim];///range(0, 6);
+var ordered_stimuli = stimuli_to_show;///shuffle(stimuli_to_show); ///LOOK AT THIS CODE
+var stim_index = ordered_stimuli[0];
 
 
 
 
 // Permute the matrix randomly:
-var prop_perm = shuffle(range(0,expt[0].length-1));
-var target_perm = shuffle(range(0,expt.length-1));
-var expt_perm = new Array();
-var choice_names = new Array();
+var prop_perm;/// = shuffle(range(0,expt[0].length-1));
+var target_perm;/// = shuffle(range(0,expt.length-1));
+var expt_perm;/// = new Array();
+var choice_names;/// = new Array();
 
-
-// Permute the second level and first... make into function
-for (var i=0; i<expt.length; i++) {
-    expt_perm[i] = new Array()
-    for (var j=0; j<expt[0].length; j++) {
-    	expt_perm[i][j] = expt[target_perm[i]][prop_perm[j]];
-    }
-    choice_names[i] = choice_names_unpermuted[target_perm[i]];
+var permute = function(){
+    prop_perm = shuffle(range(0,expt[0].length-1));
+    target_perm = shuffle(range(0,expt.length-1));
+    expt_perm = new Array();
+    choice_names = new Array();
+    permute_expt();
 }
 
-var base = stims[stim_index];
-var plural = stims_plural[stim_index];
-var actions = stims_actions[stim_index];
-var props = stims_props[stim_index];
-var prop_words = stims_prop_words[stim_index];
-var individual_prop_words = stims_single_words[stim_index];
-var times = stims_times[stim_index];
+// Permute the second level and first... make into function
+var permute_expt = function(){///
+    for (var i=0; i<expt.length; i++) {
+        expt_perm[i] = new Array()
+        for (var j=0; j<expt[0].length; j++) {
+        	expt_perm[i][j] = expt[target_perm[i]][prop_perm[j]];
+        }
+        choice_names[i] = choice_names_unpermuted[target_perm[i]];
+    }
+}
 
-var target = target_perm.indexOf(target_unpermuted);
-var distractor = target_perm.indexOf(distractor_unpermuted);
-var other = target_perm.indexOf(other_unpermuted);
-var target_prop = prop_perm.indexOf(target_prop_unpermuted);
-var distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted);
+permute();///
 
-var actual_target_prop = prop_words[target_prop];
-var actual_distractor_prop = prop_words[distractor_prop];
+var base;/// = stims[stim_index];
+var plural;/// = stims_plural[stim_index];
+var actions;/// = stims_actions[stim_index];
+var props;/// = stims_props[stim_index];
+var prop_words;/// = stims_prop_words[stim_index];
+var individual_prop_words;/// = stims_single_words[stim_index];
+var times;/// = stims_times[stim_index];
+
+var target;/// = target_perm.indexOf(target_unpermuted);
+var distractor;/// = target_perm.indexOf(distractor_unpermuted);
+var other;/// = target_perm.indexOf(other_unpermuted);
+var target_prop;/// = prop_perm.indexOf(target_prop_unpermuted);
+var distractor_prop;/// = prop_perm.indexOf(distractor_prop_unpermuted);
+
+var actual_target_prop;/// = prop_words[target_prop];
+var actual_distractor_prop;/// = prop_words[distractor_prop];
+
+var get_next_trial_data = function(){
+    base = stims[stim_index];
+    plural = stims_plural[stim_index];
+    actions = stims_actions[stim_index];
+    props = stims_props[stim_index];
+    prop_words = stims_prop_words[stim_index];
+    individual_prop_words = stims_single_words[stim_index];
+    times = stims_times[stim_index];
+
+    target = target_perm.indexOf(target_unpermuted);
+    distractor = target_perm.indexOf(distractor_unpermuted);
+    other = target_perm.indexOf(other_unpermuted);
+    target_prop = prop_perm.indexOf(target_prop_unpermuted);
+    distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted);
+
+    actual_target_prop = prop_words[target_prop];
+    actual_distractor_prop = prop_words[distractor_prop];
+}
+
+var permute_before_trial = [1,0,1];///whether to permute the matrix before trial n
+
+var target_unpermuted_for_trial;/// = [1,2,1];///1W,0W,1B; should randomize & have datapt for which condition
+var distractor_unpermuted_for_trial;/// = [2,1,2];
+var target_prop_unpermuted_for_trial;/// = [2,1,2];
+var distractor_prop_unpermuted_for_trial;/// = [1,2,1];
+
+var sequence_condition = random(0,1);///1 for 0w,1w,1b; 0 for 1w,0w,1b
+if(0 === sequence_condition)
+{
+    target_unpermuted_for_trial = [1,2,1];
+    distractor_unpermuted_for_trial = [2,1,2];
+    target_prop_unpermuted_for_trial = [2,1,2];
+    distractor_prop_unpermuted_for_trial = [1,2,1];
+}
+else
+{
+    target_unpermuted_for_trial = [2,1,1];
+    distractor_unpermuted_for_trial = [1,2,2];
+    target_prop_unpermuted_for_trial = [1,2,2];
+    distractor_prop_unpermuted_for_trial = [2,1,1];
+}
+
+target_unpermuted = target_unpermuted_for_trial[0];
+distractor_unpermuted = distractor_unpermuted_for_trial[0];
+target_prop_unpermuted = target_prop_unpermuted_for_trial[0];
+distractor_prop_unpermuted = distractor_prop_unpermuted_for_trial[0];
+
+get_next_trial_data();///
 
 // create shuffled familiarization
 fam_mat = new Array();
@@ -230,3 +298,6 @@ for (var i = 0; i < instances_in_familiarization; i++) {
     	fam_mat[i][j] = expt[fam_dist[fam_perm[i]]][prop_perm[j]];
     }
 }
+
+// stuff added by Avery
+var num_trials = 3;///formerly hardcoded as 6 in control flow code

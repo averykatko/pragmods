@@ -34,7 +34,7 @@ number_to_name[2] = 'C';
 
 // The variable that counts the number of trials done.
 trials_completed = 0;
-choice_sequence = ["null", "null", "null", "null", "null", "null"]
+choice_sequence = ["null", "null", "null", "null", "null", "null"];
 
 showSlide("instructions");
 
@@ -68,7 +68,7 @@ var experiment = {
 	name_check_correct: "FALSE",
 
 	// The relevant variables when the participatn response type is: Forced Choice
-	choice: "null",
+	choice: "null",///
 	choice_correct: "null",
 
 	// The relevant variables when the participant response type is: Betting
@@ -101,6 +101,8 @@ var experiment = {
 	choice_5: "null",
 	choice_6: "null",
 
+	choice_n: ["null","null","null"],///
+	choice_correct_n: ["null","null","null"],///
 
 	// FAMILIARIZATION DISPLAY FUNCTION
 	// This 
@@ -358,7 +360,7 @@ var experiment = {
 
 		// SELECT FUNCTION (called in stage slide)
 	select: function (c) {
-		experiment.choice = choice_names[c];
+		experiment.choice_n[trials_completed] = choice_names[c];///
 
 		// unchoose everything
 		for (var i=0; i<choices.length; i++) {
@@ -412,7 +414,7 @@ var experiment = {
 
     	// Checking that IF we have a forced choice type then the conditions are fulfilled
     	var forced_choice_condition_fulfilled = 0;
-    	if (participant_response_type != 0 || experiment.choice != "null") {
+    	if (participant_response_type != 0 || experiment.choice_n[trials_completed] != "null") {///
     		forced_choice_condition_fulfilled = 1;
     	}
 
@@ -477,10 +479,10 @@ var experiment = {
     	if (forced_choice_condition_fulfilled == 1 && betting_condition_fulfilled == 1 && likert_condition_fulfilled == 1 && count_condition_fulfilled == 1) {
     		// Here you repeat the experiment if the trial number is not done.
     		trials_completed = trials_completed + 1;
-    		if (trials_completed < 6) {
-				stim_index = ordered_stimuli[trials_completed]
+    		if (trials_completed < num_trials) {//used to be hard-coded as 6
+				stim_index = ordered_stimuli[trials_completed]; ///LOOK AT THIS CODE
 
-				base = stims[stim_index];
+				/*base = stims[stim_index];
 				plural = stims_plural[stim_index];
 				actions = stims_actions[stim_index];
 				props = stims_props[stim_index];
@@ -495,7 +497,16 @@ var experiment = {
 				distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted);
 
 				actual_target_prop = prop_words[target_prop];
-				actual_distractor_prop = prop_words[distractor_prop];
+				actual_distractor_prop = prop_words[distractor_prop];*/
+
+				if(1 === permute_before_trial[trials_completed]) {///
+					permute();
+				}
+				target_unpermuted = target_unpermuted_for_trial[trials_completed];
+				distractor_unpermuted = distractor_unpermuted_for_trial[trials_completed];
+				target_prop_unpermuted = target_prop_unpermuted_for_trial[trials_completed];
+				distractor_prop_unpermuted = distractor_unpermuted_for_trial[trials_completed];
+				get_next_trial_data();
 
 				testNextButton.blur(); 
 				experiment.next_familiarization();
@@ -540,10 +551,10 @@ var experiment = {
 		    // HERE you can performe the needed boolean logic to properly account for the target_filler_sequence possibilities.
 		    // In other words, here you can check whether the choice is correct depending on the nature of the trial.
 
-		    if (experiment.choice == "target") {
-				experiment.choice_correct = "TRUE";
+		    if (experiment.choice_n[trials_completed] == "target") {///
+				experiment.choice_correct_n[trials_completed] = "TRUE";///
 		    } else {
-		    	experiment.choice_correct = "FALSE";
+		    	experiment.choice_correct_n[trials_completed] = "FALSE";///
 		    }
 		    experiment.end();
 		}
