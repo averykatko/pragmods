@@ -105,7 +105,7 @@ turk = turk || {};
 
     // Filter out non-own properties and things that are functions
     for(var key in object) {
-      if ((hopUndefined || object.hasOwnProperty(key)) && (typeof object[key] != "function") && (typeof object[key] != "object")) {
+      if ((hopUndefined || object.hasOwnProperty(key)) && (typeof object[key] != "function") && (typeof object[key] != "object")) { ///modified by Avery to prevent submitting arrays
         rawData[key] = object[key];
         addFormData(form, key, JSON.stringify(object[key]));
       }
