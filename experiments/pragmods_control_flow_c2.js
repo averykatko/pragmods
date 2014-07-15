@@ -148,9 +148,30 @@ var experiment = {
 				var familiarization_html = '<p class="block-text"">Bob really likes to ' + 
 				actions[0] + ' ' + plural + '. <br>' + 
 				'Every ' + times[0] + ' he ' + actions[1] + ' a ' + base + '.<p>';
+				var familiarization_again_html = '<p class="block-text"">Bob also really likes to ' + 
+				actions[0] + ' ' + plural + '. <br>' + 
+				'Every ' + times[0] + ' he ' + actions[1] + ' a ' + base + '.<p>';
 				$("#familiarizationText").html(familiarization_html);
+				$("#familiarizationAgainText").html(familiarization_again_html);
 			}
-			showSlide("prestage");	
+			if(0 === trials_completed)
+			{
+				showSlide("prestage");
+			}
+			else if(1 === permute_before_trial[trials_completed])
+			{
+				showSlide("prestage-again");
+			}
+			else
+			{
+				showSlide("stage");
+				////...
+				$("#setup").css('color','white');
+				$("#labelInst").hide();
+				$("#userSelectionInputFields").hide();
+				$("#testNextButton").hide();
+				$("#continueButton").show();
+			}
 		}
 	},
 
@@ -158,6 +179,14 @@ var experiment = {
 	next_test: function() {
 
 		showSlide("stage");
+		if(1 === permute_before_trial[trials_completed])
+		{
+			$("#setup").css('color','black');
+		}
+		$("#labelInst").show();
+		$("#userSelectionInputFields").show();
+		$("#testNextButton").show();
+		$("#continueButton").hide();
 
 		// CREATE SETUP
 		var setup_html = '<p class="block-text">Take a look at these ' + plural + ' Bob has ' + actions[3] + '!</p>';
@@ -389,6 +418,16 @@ var experiment = {
 		    experiment.next_test();
 		} else {
 		    $("#famMessage").html('<font color="red">' + 
+				       'Please make sure you have looked at all the '+ base +  '!' + 
+				       '</font>');
+		}
+    },
+    check_fam_again: function() {
+		if (fam_finished == 1 || familiarization_status == 0) {
+		    famNextButton.blur(); 
+		    experiment.next_test();
+		} else {
+		    $("#famAgainMessage").html('<font color="red">' + 
 				       'Please make sure you have looked at all the '+ base +  '!' + 
 				       '</font>');
 		}

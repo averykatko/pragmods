@@ -73,8 +73,19 @@
       </table>
     </div>
     
-
-
+    <div class="slide" id="prestage-again">
+      <p class="block-text">
+      <img src="images/guy.jpg" width=75px alt="Bob"></p>
+      <div id="familiarizationAgainText"> </div> <!--dynamically built in javascript-->
+      <div id="famObjects"> </div> <!--dynamically built in javascript-->
+      <table align="center"><tr><td align="center">
+        <button type="button" id="famAgainNextButton" onClick="experiment.check_fam_again()">Next</button>
+        </td></tr>
+        <tr><td align="center">
+        <div id="famAgainMessage"> </div>
+        </td></tr>
+      </table>
+    </div>
 
     <!-- This is the slide that tests the *pragmatically* relevant inferences on the subject. THE MAIN TEST so to speak-->
     <div class="slide" id="stage">
@@ -85,6 +96,7 @@
       <div id="userSelectionInputFields"> </div> <!--The fields where the user expreses his/her decision/s -->
       <table align="center"><tr><td align="center">
       <button type="button" id="testNextButton" onClick="experiment.check_test()">Next</button>
+      <button type="button" id="continueButton" onClick="experiment.next_test()">Continue</button>
       </td></tr>
       <tr><td align="center">
       <div id="testMessage"> </div>
