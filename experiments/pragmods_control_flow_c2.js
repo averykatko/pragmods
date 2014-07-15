@@ -602,6 +602,11 @@ var experiment = {
     // END FUNCTION 
     end: function () {
     	showSlide("finished");
+
+    	experiment.choice_1 = experiment.choice_n[0];
+    	experiment.choice_2 = experiment.choice_n[1];
+    	experiment.choice_3 = experiment.choice_n[2];
+
     	setTimeout(function () {
 		turk.submit(experiment);
         }, 500); 
