@@ -52,8 +52,15 @@ var experiment = {
 	target_property: props[target_prop],
 	target_frequency: target_frequencies[fam_cond],
 	target_position: positions[target],    // -2
+	distractor_position: positions[distractor],
 	familiarization_cond: fam_cond, // This is the index number of the familiarization conditions. For example, fam_cond == 0 means that the distractors, targets etc. are: [0, 1, 2, 2, 2, 2, 2, 2, 2]
 	
+	item_n: [base],
+	target_prop_n: [props[target_prop]],
+	target_position_n: [positions[target]],
+	distractor_prop_n: [props[distractor_prop]],
+	distractor_position_n: [positions[distractor]],
+
 	// These variables define the state-space of the experiment. linguistic_framing is subordinated to question_type (only matters for the first question type.)
 	participant_response_type_condition: participant_response_type,
 	participant_feature_count_condition: participant_feature_count,
@@ -103,6 +110,49 @@ var experiment = {
 
 	choice_n: ["null","null","null"],///
 	choice_correct_n: ["null","null","null"],///
+	//choice_correct_n: new Array(),
+
+	choice_correct_1: "null",
+	choice_correct_2: "null",
+	choice_correct_3: "null",
+	choice_correct_4: "null",
+	choice_correct_5: "null",
+	choice_correct_6: "null",
+
+	item_1: "null",
+	item_2: "null",
+	item_3: "null",
+	item_4: "null",
+	item_5: "null",
+	item_6: "null",
+
+	target_prop_1: "null",
+	target_prop_2: "null",
+	target_prop_3: "null",
+	target_prop_4: "null",
+	target_prop_5: "null",
+	target_prop_6: "null",
+
+	target_position_1: "null",
+	target_position_2: "null",
+	target_position_3: "null",
+	target_position_4: "null",
+	target_position_5: "null",
+	target_position_6: "null",
+
+	distractor_prop_1: "null",
+	distractor_prop_2: "null",
+	distractor_prop_3: "null",
+	distractor_prop_4: "null",
+	distractor_prop_5: "null",
+	distractor_prop_6: "null",
+
+	distractor_position_1: "null",
+	distractor_position_2: "null",
+	distractor_position_3: "null",
+	distractor_position_4: "null",
+	distractor_position_5: "null",
+	distractor_position_6: "null",
 
 	// FAMILIARIZATION DISPLAY FUNCTION
 	// This 
@@ -330,7 +380,7 @@ var experiment = {
 		}
 
 
-		$("#labelInst").html(label_html) 	
+		$("#labelInst").html(label_html); 	
 
 		// Here add the code that matters for the experiment. Note: the input fields about the pragmatic inference
 		// used to be just underneath the stimuli. This got changed to force the subjects to first read the instructions
@@ -384,12 +434,12 @@ var experiment = {
 			user_input_selection += '</tr><tr></tr></table>';
 		}
 
-		$("#userSelectionInputFields").html(user_input_selection)
+		$("#userSelectionInputFields").html(user_input_selection);
 	},
 
 		// SELECT FUNCTION (called in stage slide)
 	select: function (c) {
-		experiment.choice_n[trials_completed] = choice_names[c];///
+		experiment.choice_n[trials_completed] = choice_names[c];///!!!!!
 
 		// unchoose everything
 		for (var i=0; i<choices.length; i++) {
@@ -521,23 +571,6 @@ var experiment = {
     		if (trials_completed < num_trials) {//used to be hard-coded as 6
 				stim_index = ordered_stimuli[trials_completed]; ///LOOK AT THIS CODE
 
-				/*base = stims[stim_index];
-				plural = stims_plural[stim_index];
-				actions = stims_actions[stim_index];
-				props = stims_props[stim_index];
-				prop_words = stims_prop_words[stim_index];
-				individual_prop_words = stims_single_words[stim_index];
-				times = stims_times[stim_index];
-
-				target = target_perm.indexOf(target_unpermuted);
-				distractor = target_perm.indexOf(distractor_unpermuted);
-				other = target_perm.indexOf(other_unpermuted);
-				target_prop = prop_perm.indexOf(target_prop_unpermuted);
-				distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted);
-
-				actual_target_prop = prop_words[target_prop];
-				actual_distractor_prop = prop_words[distractor_prop];*/
-
 				if(1 === permute_before_trial[trials_completed]) {///
 					permute();
 				}
@@ -545,7 +578,20 @@ var experiment = {
 				distractor_unpermuted = distractor_unpermuted_for_trial[trials_completed];
 				target_prop_unpermuted = target_prop_unpermuted_for_trial[trials_completed];
 				distractor_prop_unpermuted = distractor_unpermuted_for_trial[trials_completed];
+
+				/*experiment.item_n.push(base);
+				experiment.target_prop_n.push(props[target_prop]);
+				//experiment.target_position_n.push();
+				experiment.distractor_prop_n.push(props[distractor_prop]);
+				//experiment.distractor_position_n.push();*/
+
 				get_next_trial_data();
+
+				experiment.item_n.push(base);
+			experiment.target_prop_n.push(props[target_prop]);
+			//experiment.target_position_n.push();
+			experiment.distractor_prop_n.push(props[distractor_prop]);
+			//experiment.distractor_position_n.push();
 
 				testNextButton.blur(); 
 				experiment.next_familiarization();
@@ -553,6 +599,11 @@ var experiment = {
 				testNextButton.blur(); 
 				showSlide("check");
     		}
+    		/*experiment.item_n.push(base);
+			experiment.target_prop_n.push(props[target_prop]);
+			//experiment.target_position_n.push();
+			experiment.distractor_prop_n.push(props[distractor_prop]);
+			//experiment.distractor_position_n.push();*/
 		} else {
 	    	$("#testMessage").html('<font color="red">' + 
 			'Please make sure you have answered all the questions!' + 
@@ -590,11 +641,11 @@ var experiment = {
 		    // HERE you can performe the needed boolean logic to properly account for the target_filler_sequence possibilities.
 		    // In other words, here you can check whether the choice is correct depending on the nature of the trial.
 
-		    if (experiment.choice_n[trials_completed] == "target") {///
+		    /*if (experiment.choice_n[trials_completed] == "target") {///
 				experiment.choice_correct_n[trials_completed] = "TRUE";///
 		    } else {
 		    	experiment.choice_correct_n[trials_completed] = "FALSE";///
-		    }
+		    }*/
 		    experiment.end();
 		}
     },
