@@ -588,10 +588,10 @@ var experiment = {
 				get_next_trial_data();
 
 				experiment.item_n.push(base);
-			experiment.target_prop_n.push(props[target_prop]);
-			//experiment.target_position_n.push();
-			experiment.distractor_prop_n.push(props[distractor_prop]);
-			//experiment.distractor_position_n.push();
+				experiment.target_prop_n.push(props[target_prop]);
+				experiment.target_position_n.push(positions[target]);////
+				experiment.distractor_prop_n.push(props[distractor_prop]);
+				experiment.distractor_position_n.push(positions[distractor]);
 
 				testNextButton.blur(); 
 				experiment.next_familiarization();
@@ -654,9 +654,56 @@ var experiment = {
     end: function () {
     	showSlide("finished");
 
-    	experiment.choice_1 = experiment.choice_n[0];
-    	experiment.choice_2 = experiment.choice_n[1];
-    	experiment.choice_3 = experiment.choice_n[2];
+    	if(0 === sequence_condition)//1w,0w,1b
+    	{
+    		experiment.choice_1 = experiment.choice_n[0];
+    		switch(experiment.choice_n[1])
+    		{
+    			case "target": experiment.choice_2 = "logical"; break;
+    			case "logical": experiment.choice_2 = "target"; break;
+    			case "foil": experiment.choice_2 = "foil"; break;
+    			default: experiment.choice_2 = "error"; break;
+    		}
+    		experiment.choice_3 = experiment.choice_n[2];
+    		experiment.sequence_condition = "1w0w1b"
+    	}
+    	else//0w,1w,1b
+    	{
+    		switch(experiment.choice_n[0])
+    		{
+    			case "target": experiment.choice_1 = "logical"; break;
+    			case "logical": experiment.choice_1 = "target"; break;
+    			case "foil": experiment.choice_1 = "foil"; break;
+    			default: experiment.choice_1 = "error"; break;
+    		}
+    		experiment.choice_2 = experiment.choice_n[1];
+    		experiment.choice_3 = experiment.choice_n[2];
+    		experiment.sequence_condition = "0w1w1b";
+    	}
+
+    	experiment.choice_correct_1 = ("target" == experiment.choice_1);
+    	experiment.choice_correct_2 = ("target" == experiment.choice_2);
+    	experiment.choice_correct_3 = ("target" == experiment.choice_3);
+
+    	experiment.item_1 = experiment.item_n[0];
+    	experiment.item_2 = experiment.item_n[1];
+    	experiment.item_3 = experiment.item_n[2];
+
+    	experiment.target_prop_1 = experiment.target_prop_n[0];
+    	experiment.target_prop_2 = experiment.target_prop_n[1];
+    	experiment.target_prop_3 = experiment.target_prop_n[2];
+
+    	experiment.target_position_1 = experiment.target_position_n[0];
+    	experiment.target_position_2 = experiment.target_position_n[1];
+    	experiment.target_position_3 = experiment.target_position_n[2];
+
+    	experiment.distractor_prop_1 = experiment.distractor_prop_n[0];
+    	experiment.distractor_prop_2 = experiment.distractor_prop_n[1];
+    	experiment.distractor_prop_3 = experiment.distractor_prop_n[2];
+
+    	experiment.distractor_position_1 = experiment.distractor_position_n[0];
+    	experiment.distractor_position_2 = experiment.distractor_position_n[1];
+    	experiment.distractor_position_3 = experiment.distractor_position_n[2];
 
     	setTimeout(function () {
 		turk.submit(experiment);

@@ -54,10 +54,10 @@ title::What is he talking about? (1-2 mins)
 description:: Short and fun! A 1-2 minute word game about what someone is talking about.
 &&& 	A brief description of your experiment, in a phrase or short sentence
 
-nameofexperimentfiles::pragmods_c1
+nameofexperimentfiles::pragmods_seq
 &&& 	The files that the script generates for you will have names based on this option. 
 
-experimentURL::https://langcog.stanford.edu/expts/pragmods/pragmods_c1.html
+experimentURL::https://langcog.stanford.edu/expts/pragmods/pragmods_seq.html
 &&&		experimentURL::http://langcog.stanford.edu/expts/MCF/pragmods_js/pragmods_v7.html
 &&& 	The URL where you've posted your external HIT
 

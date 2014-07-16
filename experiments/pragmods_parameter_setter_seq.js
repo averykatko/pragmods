@@ -240,6 +240,38 @@ var distractor_prop;/// = prop_perm.indexOf(distractor_prop_unpermuted);
 var actual_target_prop;/// = prop_words[target_prop];
 var actual_distractor_prop;/// = prop_words[distractor_prop];
 
+var target_unpermuted_for_trial;/// = [1,2,1];///1W,0W,1B; should randomize & have datapt for which condition
+var distractor_unpermuted_for_trial;/// = [2,1,2];
+var choice_names_unpermuted_for_trial;
+var other_unpermuted_for_trial = [0,0,0];
+var target_prop_unpermuted_for_trial;/// = [2,1,2];
+var distractor_prop_unpermuted_for_trial;/// = [1,2,1];
+var trials_completed = 0;
+
+var sequence_condition = random(0,1);///1 for 0w,1w,1b; 0 for 1w,0w,1b
+if(0 === sequence_condition)
+{
+    target_unpermuted_for_trial = [1,2,1];
+    distractor_unpermuted_for_trial = [2,1,2];
+    //choice_names_unpermuted_for_trial = [["foil","target","logical"],["foil","logical","target"],["foil","target","logical"]];
+    target_prop_unpermuted_for_trial = [2,1,2];
+    distractor_prop_unpermuted_for_trial = [1,2,1];
+}
+else
+{
+    target_unpermuted_for_trial = [2,1,1];
+    distractor_unpermuted_for_trial = [1,2,2];
+    //choice_names_unpermuted_for_trial = [["foil","logical","target"],["foil","target","logical"],["foil","target","logical"]];
+    target_prop_unpermuted_for_trial = [1,2,2];
+    distractor_prop_unpermuted_for_trial = [2,1,1];
+}
+
+target_unpermuted = target_unpermuted_for_trial[0];
+distractor_unpermuted = distractor_unpermuted_for_trial[0];
+target_prop_unpermuted = target_prop_unpermuted_for_trial[0];
+distractor_prop_unpermuted = distractor_prop_unpermuted_for_trial[0];
+other_unpermuted = other_unpermuted_for_trial[0];
+
 var get_next_trial_data = function(){
     base = stims[stim_index];
     plural = stims_plural[stim_index];
@@ -249,43 +281,17 @@ var get_next_trial_data = function(){
     individual_prop_words = stims_single_words[stim_index];
     times = stims_times[stim_index];
 
-    target = target_perm.indexOf(target_unpermuted);
-    distractor = target_perm.indexOf(distractor_unpermuted);
-    other = target_perm.indexOf(other_unpermuted);
-    target_prop = prop_perm.indexOf(target_prop_unpermuted);
-    distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted);
+    target = target_perm.indexOf(target_unpermuted_for_trial[trials_completed]);
+    distractor = target_perm.indexOf(distractor_unpermuted_for_trial[trials_completed]);
+    other = target_perm.indexOf(other_unpermuted_for_trial[trials_completed]);
+    target_prop = prop_perm.indexOf(target_prop_unpermuted_for_trial[trials_completed]);
+    distractor_prop = prop_perm.indexOf(distractor_prop_unpermuted_for_trial[trials_completed]);
 
     actual_target_prop = prop_words[target_prop];
-    actual_distractor_prop = prop_words[distractor_prop];
+    actual_distractor_prop = prop_words[distractor_prop_unpermuted_for_trial[trials_completed]];
 }
 
 var permute_before_trial = [1,0,1];///whether to permute the matrix before trial n
-
-var target_unpermuted_for_trial;/// = [1,2,1];///1W,0W,1B; should randomize & have datapt for which condition
-var distractor_unpermuted_for_trial;/// = [2,1,2];
-var target_prop_unpermuted_for_trial;/// = [2,1,2];
-var distractor_prop_unpermuted_for_trial;/// = [1,2,1];
-
-var sequence_condition = random(0,1);///1 for 0w,1w,1b; 0 for 1w,0w,1b
-if(0 === sequence_condition)
-{
-    target_unpermuted_for_trial = [1,2,1];
-    distractor_unpermuted_for_trial = [2,1,2];
-    target_prop_unpermuted_for_trial = [2,1,2];
-    distractor_prop_unpermuted_for_trial = [1,2,1];
-}
-else
-{
-    target_unpermuted_for_trial = [2,1,1];
-    distractor_unpermuted_for_trial = [1,2,2];
-    target_prop_unpermuted_for_trial = [1,2,2];
-    distractor_prop_unpermuted_for_trial = [2,1,1];
-}
-
-target_unpermuted = target_unpermuted_for_trial[0];
-distractor_unpermuted = distractor_unpermuted_for_trial[0];
-target_prop_unpermuted = target_prop_unpermuted_for_trial[0];
-distractor_prop_unpermuted = distractor_prop_unpermuted_for_trial[0];
 
 get_next_trial_data();///
 
