@@ -220,6 +220,8 @@ var experiment = {
 				$("#labelInst").hide();
 				$("#userSelectionInputFields").hide();
 				$("#testNextButton").hide();
+				$("#continueText").show();
+				$("#continueText").html('<p class="block-text"><center>Click "Continue" for one more question about the ' + plural + ':</center></p>');
 				$("#continueButton").show();
 			}
 		}
@@ -236,6 +238,7 @@ var experiment = {
 		$("#labelInst").show();
 		$("#userSelectionInputFields").show();
 		$("#testNextButton").show();
+		$("#continueText").hide();
 		$("#continueButton").hide();
 
 		// CREATE SETUP
