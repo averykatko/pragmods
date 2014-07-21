@@ -347,6 +347,7 @@ var experiment = {
 
 		// Create the way in which the question is asked (and the type of question)
 		var label_html = '<br><br><p class="block-text">';
+		var label_again_html = '<br><br><p class="block-text">';
 		if (question_type == 0) { // LISTENER CONDITION
 			if (linguistic_framing == 0) {
 				label_html += 'Bob says: ';
@@ -354,6 +355,8 @@ var experiment = {
 			} else if (linguistic_framing == 1) {
 				label_html += 'Bob can only say one word to communicate with you and he says: ';
 				label_html += '<p class="block-text style="font-size:x-large;">  <b>' + individual_prop_words[target_prop] + '</b></p>';
+				label_again_html += 'Now, Bob can again say only one word to communicate with you and he says: ';
+				label_again_html += '<p class="block-text style="font-size:x-large;">  <b>' + individual_prop_words[target_prop] + '</b></p>';
 			}
 		} else if (question_type == 1) { // SCHELLING (MUMBLE) CONDITION
 			label_html += 'Bob says: '
@@ -375,6 +378,7 @@ var experiment = {
 		} else if (linguistic_framing == 1) {
 			if (participant_response_type == 0) {
 				label_html += '<p class="block-text">Click below on the option that represents the ' + base + ' that you think Bob is talking about.</p>';
+				label_again_html += '<p class="block-text">Click below on the option that represents the ' + base + ' that you think Bob is talking about.</p>';
 			} else if (participant_response_type == 1) {
 				label_html += '<p class="block-text">You have $100 you can use to bet on the ' + base + ' you think Bob is talking about. Distribute your $100 among the options by how likely you think that Bob is referring to each of the options. (Make sure your bets add to $100).</p>';
 			} else if (participant_response_type == 2) {
@@ -382,8 +386,14 @@ var experiment = {
 			}
 		}
 
-
-		$("#labelInst").html(label_html); 	
+		if(1 === permute_before_trial[trials_completed])
+		{
+			$("#labelInst").html(label_html); 	
+		}
+		else
+		{
+			$("#labelInst").html(label_again_html);
+		}
 
 		// Here add the code that matters for the experiment. Note: the input fields about the pragmatic inference
 		// used to be just underneath the stimuli. This got changed to force the subjects to first read the instructions
