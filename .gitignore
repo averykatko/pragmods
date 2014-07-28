@@ -3,3 +3,5 @@
 *.results.*
 .Rhistory
 .RData
+*.csv
+*.tsv
