@@ -2,7 +2,7 @@
 title: "seq_analysis"
 author: "Avery Katko"
 date: "July 28, 2014"
-output: html_document
+output: pdf_document
 ---
 
 ```{r}
@@ -57,6 +57,7 @@ trial.df <- function(tn){
 }
 
 d2 <- rbind(trial.df(1),trial.df(2),trial.df(3))
+summary(d2)
 ```
 
 ```{r}
@@ -107,4 +108,23 @@ ggplot(data = subset(ms,trial=="3"), aes(x = seqCond, y = choiceCorrect, fill = 
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
   theme_bw() +
   scale_fill_manual(values=cbPalette)
+```
+
+Chi-squared test between level-1 inferences in within trials
+
+```{r}
+col_foil <- aggregate(choice ~ seqCond, data = d2[d2$level=="1" & d2$trial!="3",], 
+          function(...){sum(... == "\"foil\"")})
+
+col_target <- aggregate(choice ~ seqCond, data = d2[d2$level=="1" & d2$trial!="3",], 
+          function(...){sum(... == "\"target\"")})
+
+col_logical <- aggregate(choice ~ seqCond, data = d2[d2$level=="1" & d2$trial!="3",], 
+          function(...){sum(... == "\"logical\"")})
+
+cont_table <- data.frame(cbind(col_foil,col_target[2],col_logical[2]))
+names(cont_table) <- c("seqCond","foil","target","logical")
+
+cont_table
+chisq.test(cont_table[1:2,2:4])
 ```
