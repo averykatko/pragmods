@@ -221,7 +221,7 @@ var experiment = {
 				$("#userSelectionInputFields").hide();
 				$("#testNextButton").hide();
 				$("#continueText").show();
-				$("#continueText").html('<p class="block-text"><center>Click "Continue" for another question about the ' + plural + ':</center></p>');
+				$("#continueText").html('<p class="block-text"><center>Click "Continue" for another question about the ' + plural + ' (2/2):</center></p>');
 				$("#continueButton").show();
 			}
 		}
