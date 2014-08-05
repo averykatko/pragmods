@@ -182,17 +182,11 @@ var stims_times = [["weekend","Week"],
 // var stim_index = random(0,stims.length-1);
 // When target_filler_sequence is not equal to zero:
 
-var stim_1 = random(0,stims.length-1);
-///console.log("ws: " + within_stim);
-var remaining_stims = range(0,stims.length-1);
-remaining_stims.splice(stim_1,1);
-///console.log("remaining: " + remaining_stims);
-var stim_2 = remaining_stims[random(0,remaining_stims.length-1)];
-///console.log("bs: " + between_stim);
-remaining_stims.splice(stim_2,1);
-var stim_3 = remaining_stims[random(0,remaining_stims.length-1)];
-//var stimuli_to_show = [within_stim,within_stim,between_stim];///range(0, 6);
-var stimuli_to_show = [stim_1,stim_1,stim_2,stim_2,stim_3,stim_3];//[within_stim,within_stim,within_stim,within_stim,within_stim,within_stim];
+var stims_shuffled = shuffle(range(0,stims.length-1));
+var stim_1 = stims_shuffled[0];
+var stim_2 = stims_shuffled[1];
+var stim_3 = stims_shuffled[2];
+var stimuli_to_show = [stim_1,stim_1,stim_2,stim_2,stim_3,stim_3];
 var ordered_stimuli = stimuli_to_show;//shuffle(stimuli_to_show); ///LOOK AT THIS CODE
 var stim_index = ordered_stimuli[0];
 

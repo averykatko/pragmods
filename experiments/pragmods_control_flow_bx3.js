@@ -516,7 +516,7 @@ var experiment = {
 
     	// Checking that IF we have a forced choice type then the conditions are fulfilled
     	var forced_choice_condition_fulfilled = 0;
-    	if (participant_response_type != 0 || experiment.choice_n[trials_completed] != "null") {///
+    	if (participant_response_type != 0 || (experiment.choice_n[trials_completed] != undefined && experiment.choice_n[trials_completed] != "null")) {///
     		forced_choice_condition_fulfilled = 1;
     	}
 
@@ -721,7 +721,7 @@ var experiment = {
     			default: experiment.choice_5 = "error"; break;
     		}
     		experiment.choice_6 = experiment.choice_n[5];
-    		experiment.sequence_condition = "(0w1w)x3";
+    		experiment.sequence_condition = "(0b1b)x3";
     	}
 
     	experiment.choice_correct_1 = ("target" == experiment.choice_1);
