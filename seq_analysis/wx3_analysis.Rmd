@@ -75,6 +75,8 @@ l.ci.low <- function(x,na.rm=T) {
 l.ci.high <- function(x,na.rm=T) {
   quantile(bootstrap(1:length(x),1000,l.theta,x,na.rm=na.rm)$thetastar,.975,na.rm=na.rm) - l.mean(x,na.rm=na.rm)}
 
+mss <- aggregate(choiceCorrect ~ trial + level + id, data = d2, l.mean)
+
 ms <- aggregate(choiceCorrect ~ trial + level,data = d2,l.mean)
 ms$cil <- aggregate(choiceCorrect ~ trial + level, data = d2, l.ci.low)$choiceCorrect
 ms$cih <- aggregate(choiceCorrect ~ trial + level, data = d2, l.ci.high)$choiceCorrect
@@ -93,6 +95,10 @@ ggplot(data = ms, aes(x = trial, y = choiceCorrect, fill = level)) +
   #facet_grid(. ~ seqCond) + 
   theme_bw() +
   scale_fill_manual(values=cbPalette)
+```
+
+```{r}
+#ggplot(data = mss, aes(x = ))
 ```
 
 Compare performance on level-0 vs level-1 trials.
