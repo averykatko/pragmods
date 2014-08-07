@@ -221,7 +221,7 @@ var experiment = {
 				$("#userSelectionInputFields").hide();
 				$("#testNextButton").hide();
 				$("#continueText").show();
-				$("#continueText").html('<p class="block-text"><center>Click "Continue" for one more question about the ' + plural + ':</center></p>');
+				$("#continueText").html('<p class="block-text"><center>Click "Continue" for another question about the ' + plural + ' (' + (trials_completed+1) + '/3):</center></p>');
 				$("#continueButton").show();
 			}
 		}
@@ -667,20 +667,7 @@ var experiment = {
     end: function () {
     	showSlide("finished");
 
-    	if(0 === sequence_condition)//1w,0w,1b
-    	{
-    		experiment.choice_1 = experiment.choice_n[0];
-    		switch(experiment.choice_n[1])
-    		{
-    			case "target": experiment.choice_2 = "logical"; break;
-    			case "logical": experiment.choice_2 = "target"; break;
-    			case "foil": experiment.choice_2 = "foil"; break;
-    			default: experiment.choice_2 = "error"; break;
-    		}
-    		experiment.choice_3 = experiment.choice_n[2];
-    		experiment.sequence_condition = "1w0w1b"
-    	}
-    	else//0w,1w,1b
+    	if(0 === sequence_condition)//0w,1w,2w
     	{
     		switch(experiment.choice_n[0])
     		{
@@ -689,9 +676,34 @@ var experiment = {
     			case "foil": experiment.choice_1 = "foil"; break;
     			default: experiment.choice_1 = "error"; break;
     		}
-    		experiment.choice_2 = experiment.choice_n[1];
+    		switch(experiment.choice_n[1])
+    		{
+    			case "target": experiment.choice_2 = "foil"; break;
+    			case "logical": experiment.choice_2 = "logical"; break;
+    			case "foil": experiment.choice_2 = "target"; break;
+    			default: experiment.choice_2 = "error"; break;
+    		}
     		experiment.choice_3 = experiment.choice_n[2];
-    		experiment.sequence_condition = "0w1w1b";
+    		experiment.sequence_condition = "0w1w2w";
+    	}
+    	else//2w,1w,0w
+    	{
+    		experiment.choice_1 = experiment.choice_n[0];
+    		switch(experiment.choice_n[1])
+    		{
+    			case "target": experiment.choice_2 = "foil"; break;
+    			case "logical": experiment.choice_2 = "logical"; break;
+    			case "foil": experiment.choice_2 = "target"; break;
+    			default: experiment.choice_2 = "error"; break;
+    		}
+    		switch(experiment.choice_n[2])
+    		{
+    			case "target": experiment.choice_3 = "logical"; break;
+    			case "logical": experiment.choice_3 = "target"; break;
+    			case "foil": experiment.choice_3 = "foil"; break;
+    			default: experiment.choice_3 = "error"; break;
+    		}
+    		experiment.sequence_condition = "2w1w0w";
     	}
 
     	experiment.choice_correct_1 = ("target" == experiment.choice_1);

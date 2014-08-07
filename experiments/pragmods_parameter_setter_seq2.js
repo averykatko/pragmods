@@ -182,6 +182,7 @@ var stims_times = [["weekend","Week"],
 // var stim_index = random(0,stims.length-1);
 // When target_filler_sequence is not equal to zero:
 
+//ITER
 var stim_1 = random(0,stims.length-1);
 var stimuli_to_show = [stim_1,stim_1,stim_1];///range(0, 6);
 var ordered_stimuli = stimuli_to_show;///shuffle(stimuli_to_show); ///LOOK AT THIS CODE
@@ -237,27 +238,28 @@ var actual_distractor_prop;/// = prop_words[distractor_prop];
 var target_unpermuted_for_trial;/// = [1,2,1];///1W,0W,1B; should randomize & have datapt for which condition
 var distractor_unpermuted_for_trial;/// = [2,1,2];
 var choice_names_unpermuted_for_trial;
-var other_unpermuted_for_trial = [0,0];
+var other_unpermuted_for_trial = [0,0,0];
 var target_prop_unpermuted_for_trial;/// = [2,1,2];
 var distractor_prop_unpermuted_for_trial;/// = [1,2,1];
 var trials_completed = 0;
 
-var sequence_condition = 0;///random(0,1);//0 for 0w,1w,2w; 1 for 2w,1w,0w
+//ITER
+var sequence_condition = random(0,1);//0 for 0w,1w,2w; 1 for 2w,1w,0w
 if(0 === sequence_condition)
 {
-    target_unpermuted_for_trial = [2,2,1];
+    target_unpermuted_for_trial = [2,0,1];
     distractor_unpermuted_for_trial = [2,1,0];
     //choice_names_unpermuted_for_trial = [["foil","target","logical"],["foil","logical","target"],["foil","target","logical"]];
-    target_prop_unpermuted_for_trial = [2,2,1];
+    target_prop_unpermuted_for_trial = [2,0,1];
     distractor_prop_unpermuted_for_trial = [2,1,0];
 }
 else
 {
-    target_unpermuted_for_trial = [2,1];
-    distractor_unpermuted_for_trial = [1,2];
+    target_unpermuted_for_trial = [1,0,2];
+    distractor_unpermuted_for_trial = [0,1,2];
     //choice_names_unpermuted_for_trial = [["foil","logical","target"],["foil","target","logical"],["foil","target","logical"]];
-    target_prop_unpermuted_for_trial = [1,2];
-    distractor_prop_unpermuted_for_trial = [2,1];
+    target_prop_unpermuted_for_trial = [1,0,2];
+    distractor_prop_unpermuted_for_trial = [0,1,2];
 }
 
 target_unpermuted = target_unpermuted_for_trial[0];
@@ -285,7 +287,8 @@ var get_next_trial_data = function(){
     actual_distractor_prop = prop_words[distractor_prop_unpermuted_for_trial[trials_completed]];
 }
 
-var permute_before_trial = [1,0];///whether to permute the matrix before trial n
+//ITER
+var permute_before_trial = [1,0,0];///whether to permute the matrix before trial n
 
 get_next_trial_data();///
 
@@ -300,4 +303,5 @@ for (var i = 0; i < instances_in_familiarization; i++) {
 }
 
 // stuff added by Avery
+//ITER
 var num_trials = 3;///formerly hardcoded as 6 in control flow code
