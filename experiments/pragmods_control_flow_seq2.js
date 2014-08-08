@@ -671,15 +671,15 @@ var experiment = {
     	{
     		switch(experiment.choice_n[0])
     		{
-    			case "target": experiment.choice_1 = "logical"; break;
+    			case "target": experiment.choice_1 = "foil"; break;
     			case "logical": experiment.choice_1 = "target"; break;
-    			case "foil": experiment.choice_1 = "foil"; break;
+    			case "foil": experiment.choice_1 = "logical"; break;
     			default: experiment.choice_1 = "error"; break;
     		}
     		switch(experiment.choice_n[1])
     		{
-    			case "target": experiment.choice_2 = "foil"; break;
-    			case "logical": experiment.choice_2 = "logical"; break;
+    			case "target": experiment.choice_2 = "logical"; break;
+    			case "logical": experiment.choice_2 = "foil"; break;
     			case "foil": experiment.choice_2 = "target"; break;
     			default: experiment.choice_2 = "error"; break;
     		}
@@ -691,16 +691,16 @@ var experiment = {
     		experiment.choice_1 = experiment.choice_n[0];
     		switch(experiment.choice_n[1])
     		{
-    			case "target": experiment.choice_2 = "foil"; break;
-    			case "logical": experiment.choice_2 = "logical"; break;
+    			case "target": experiment.choice_2 = "logical"; break;
+    			case "logical": experiment.choice_2 = "foil"; break;
     			case "foil": experiment.choice_2 = "target"; break;
     			default: experiment.choice_2 = "error"; break;
     		}
     		switch(experiment.choice_n[2])
     		{
-    			case "target": experiment.choice_3 = "logical"; break;
+    			case "target": experiment.choice_3 = "foil"; break;
     			case "logical": experiment.choice_3 = "target"; break;
-    			case "foil": experiment.choice_3 = "foil"; break;
+    			case "foil": experiment.choice_3 = "logical"; break;
     			default: experiment.choice_3 = "error"; break;
     		}
     		experiment.sequence_condition = "2w1w0w";
