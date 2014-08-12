@@ -703,7 +703,7 @@ var experiment = {
     			case "foil": experiment.choice_3 = "logical"; break;
     			default: experiment.choice_3 = "error"; break;
     		}
-    		experiment.sequence_condition = "2w1w0w";
+    		experiment.sequence_condition = "1w2w0w";
     	}
 
     	experiment.choice_correct_1 = ("target" == experiment.choice_1);
