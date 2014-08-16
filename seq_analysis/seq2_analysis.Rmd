@@ -11,8 +11,10 @@ library(ggplot2)
 library(reshape2)
 library(plyr)
 library(bootstrap)
-setwd("~/Documents/pragmods")
 #source("useful.R")
+setwd("~/Documents/ibr_pragmods")
+#source("tests.R")
+setwd("~/Documents/pragmods")
 d <- read.csv("seq_data/pragmods_seq2.anondata.csv")
 #head(d)
 ```
@@ -92,10 +94,75 @@ ggplot(data = ms, aes(x = trial, y = choiceCorrect, fill = level)) +
 Compare performance in each condition for each inference level
 
 ```{r}
-ggplot(data = ms, aes(x = seqCond, y = choiceCorrect, fill = level)) +
+ggplot(data = ms, aes(x = seqCond, y = choiceCorrect, fill = seqCond)) +
   geom_bar(stat = "identity", color = "black") +
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
   facet_grid(. ~ level) +
   theme_bw() +
   scale_fill_manual(values=cbPalette)
+```
+
+```{r}
+setwd("~/Documents/ibr_pragmods")
+source("tests.R")
+
+LS(linear)
+LSLS(linear)
+
+# four models
+# 1. don't update matrix
+# 2. don't reuse word
+# 3. don't reuse object
+# 4. don't reuse either
+
+max.col <- function(row){
+  max.idx <- 1
+  for(i in 1:ncol(row)){
+    if(row[i] > row[max.idx]){
+      max.idx <- i
+    }
+  }
+  return(max.idx)
+}
+target.idx <- function(l){ # return col.# w/ target ref for level l
+  return(c(3,1,2)[as.numeric(l)+1])
+}
+choice.idx <- function(choice,level) # return col# w/ chosen ref
+{
+  tbl <- data.frame(target=c(0,1,2),logical=c(1,2,0),foil=c(2,0,1))
+  return(target.idx(tbl[as.numeric(level)+1,choice]))
+}
+
+response.probs <- data.frame()
+for (p in d2$id) {
+  target.mat <- linear
+  eref.mat <- linear
+  #eword.mat <- linear
+  #eboth.mat <- linear
+  particip.data <- subset(d2,id==p)
+  for (t in 1:3) {
+    cur.df <- subset(particip.data,trial==t)
+    word.row <- c(1,2,3)[as.numeric(cur.df$level)+1]
+    target.col <- target.idx(cur.df$level) # c(3,1,2)[cur.df$level+1]
+    response.probs <- rbind.fill(response.probs,
+                                 data.frame(particip=p,
+                                            trial=t,
+                                            condition=cur.df$seqCond,
+                                            level=cur.df$level,
+                                            human.choice=cur.df$choice,
+                                            rp.target.L0=L0(target.mat)[word.row,target.col],
+                                            rp.target.LS=LS(target.mat)[word.row,target.col],
+                                            
+                                            rp.eref.target=L0(eref.mat)[word.row,target.col]
+                                            #more...
+                                            ))
+
+    # evolve matrix according to some rule
+    eref.mat[choice.idx(cur.df$choice,cur.df$level),] <- 0 # don't reuse referent
+    eref.mat[choice.idx(cur.df$choice,cur.df$level),]
+    #pe.word.mat[target[blah],] <- ... # don't reuse word
+    #pe.both.mat[...] <- ... # don't reuse either
+  }
+}
+
 ```

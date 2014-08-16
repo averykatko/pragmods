@@ -11,7 +11,7 @@ library(ggplot2)
 library(reshape2)
 library(plyr)
 library(bootstrap)
-setwd("~/github/local/pragmods")
+setwd("~/Documents/pragmods")
 #source("useful.R")
 d <- read.csv("seq_data/pragmods_seq.anondata.csv")
 #head(d)
@@ -73,6 +73,10 @@ ms <- aggregate(choiceCorrect ~ seqCond + trial + level,data = d2,l.mean)
 ms$cil <- aggregate(choiceCorrect ~ seqCond + trial + level, data = d2, l.ci.low)$choiceCorrect
 ms$cih <- aggregate(choiceCorrect ~ seqCond + trial + level, data = d2, l.ci.high)$choiceCorrect
 
+# change labels
+levels(ms$seqCond)[levels(ms$seqCond)=="0w1w1b"] <- "level 0 first"
+levels(ms$seqCond)[levels(ms$seqCond)=="1w0w1b"]   <- "level 1 first"
+
 #colorblind-friendly color palettes
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
@@ -92,20 +96,33 @@ ggplot(data = ms, aes(x = trial, y = choiceCorrect, fill = level)) +
 Compare performance on level-0 vs level-1 trials in the two conditions.
 
 ```{r}
-ggplot(data = subset(ms,trial != "3"), aes(x = level, y = choiceCorrect, fill = trial)) +
+ggplot(data = subset(ms,trial != "3"), aes(x = level, y = choiceCorrect, fill = level)) +
   geom_bar(stat = "identity", color = "black") +
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
   facet_grid(. ~ seqCond) +
   theme_bw() +
-  scale_fill_manual(values=cbPalette)
+  scale_fill_manual(values=cbPalette) +
+  xlab("inference level") +
+  ylab("proportion chose target")
 ```
 
 Compare performance on third trial (level-1, different stimuli)
 
 ```{r}
-ggplot(data = subset(ms,trial=="3"), aes(x = seqCond, y = choiceCorrect, fill = seqCond)) +
+ggplot(data = subset(ms,trial=="3"), aes(x = seqCond, y = choiceCorrect, fill = level)) +
   geom_bar(stat = "identity", color = "black") +
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
+  theme_bw() +
+  scale_fill_manual(values=cbPalette[2:8]) +
+  xlab("order condition") +
+  ylab("proportion chose target")
+```
+
+```{r}
+ggplot(data = subset(ms,trial != "3"), aes(x = seqCond, y = choiceCorrect, fill = seqCond)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
+  facet_grid(. ~ level) +
   theme_bw() +
   scale_fill_manual(values=cbPalette)
 ```

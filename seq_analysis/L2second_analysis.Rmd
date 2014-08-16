@@ -2,7 +2,7 @@
 title: "L2second_analysis"
 author: "Avery Katko"
 date: "August 12, 2014"
-output: html_document
+output: pdf_document
 ---
 
 ```{r}
@@ -92,7 +92,7 @@ ggplot(data = ms, aes(x = trial, y = choiceCorrect, fill = level)) +
 Compare performance in each condition for each inference level
 
 ```{r}
-ggplot(data = ms, aes(x = seqCond, y = choiceCorrect, fill = level)) +
+ggplot(data = ms, aes(x = seqCond, y = choiceCorrect, fill = seqCond)) +
   geom_bar(stat = "identity", color = "black") +
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
   facet_grid(. ~ level) +

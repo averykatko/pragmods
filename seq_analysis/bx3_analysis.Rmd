@@ -11,7 +11,7 @@ library(ggplot2)
 library(reshape2)
 library(plyr)
 library(bootstrap)
-setwd("~/github/local/pragmods")
+setwd("~/Documents/pragmods")
 #source("useful.R")
 d <- read.csv("seq_data/pragmods_bx3.anondata.csv")
 #head(d)
@@ -94,7 +94,9 @@ ggplot(data = ms, aes(x = trial, y = choiceCorrect, fill = level)) +
   geom_errorbar(aes(ymin = choiceCorrect - cil, ymax = choiceCorrect + cih), width = 0.2) +
   #facet_grid(. ~ seqCond) + 
   theme_bw() +
-  scale_fill_manual(values=cbPalette)
+  scale_fill_manual(values=cbPalette) +
+  xlab("trial") +
+  ylab("proportion chose target")
 ```
 
 ```{r}
