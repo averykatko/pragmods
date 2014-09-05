@@ -119,10 +119,10 @@ LSLS(linear)
 #NOTE: just changed all as.numeric parts to remove +1's
 
 max.col <- function(row){
-  max.idx <- 1
+  max.idx = 1
   for(i in 1:ncol(row)){
     if(row[i] > row[max.idx]){
-      max.idx <- i
+      max.idx = i
     }
   }
   return(max.idx)
@@ -132,7 +132,7 @@ target.idx <- function(l){ # return col.# w/ target ref for level l
 }
 choice.idx <- function(choice,level) # return col# w/ chosen ref
 {
-  tbl <- data.frame(target=c(0,1,2),logical=c(1,2,0),foil=c(2,0,1))
+  tbl = data.frame(target=c(0,1,2),logical=c(1,2,0),foil=c(2,0,1))
   return(target.idx(tbl[as.numeric(level),choice]))
 }
 
@@ -166,7 +166,7 @@ for (p in d2$id) {
     
     # lexicalize word as referring to chosen ref (TODO: fix it)
     lex.mat[,word.row] <- 0
-    lex.mat[cur.df$coice,word.row] <- 1
+    lex.mat[cur.df$choice,word.row] <- 1
     
     #pe.word.mat[target[blah],] <- ... # don't reuse word
     #pe.both.mat[...] <- ... # don't reuse either
