@@ -141,6 +141,7 @@ for (p in d2$id) {
   target.mat <- linear
   eref.mat <- linear
   lex.mat <- linear
+  never.same.mat <- linear
   #eboth.mat <- linear
   particip.data <- subset(d2,id==p)
   for (tn in 1:3) { #1:3) {
@@ -157,16 +158,20 @@ for (p in d2$id) {
                                             rp.target.LS=LS(target.mat)[word.row,target.col],
                                             
                                             rp.eref.target=L0(eref.mat)[word.row,target.col],
-                                            rp.lex.target=L0(lex.mat)[word.row,target.col]
+                                            rp.lex.target=L0(lex.mat)[word.row,target.col],
+                                            rp.never.same.target=L0(lex.mat)[word.row,target.col]
                                             #more...
                                             ))
 
     # evolve matrix according to some rule
     eref.mat[choice.idx(cur.df$choice,cur.df$level),] <- 0 # don't reuse referent
     
-    # lexicalize word as referring to chosen ref (TODO: fix it)
+    # lexicalize word as referring to chosen ref
     lex.mat[,word.row] <- 0
     lex.mat[cur.df$choice,word.row] <- 1
+    
+    # don't reuse word-referent pair
+    never.same.mat[cur.df$choice,word.row] <- 0
     
     #pe.word.mat[target[blah],] <- ... # don't reuse word
     #pe.both.mat[...] <- ... # don't reuse either
