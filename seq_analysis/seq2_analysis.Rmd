@@ -133,7 +133,7 @@ target.idx <- function(l){ # return col.# w/ target ref for level l
 choice.idx <- function(choice,level) # return col# w/ chosen ref
 {
   tbl = data.frame(target=c(0,1,2),logical=c(1,2,0),foil=c(2,0,1))
-  return(target.idx(tbl[as.numeric(level),choice]))
+  return(target.idx(tbl[as.numeric(level),choice]+1))
 }
 
 response.probs <- data.frame()
@@ -144,10 +144,11 @@ for (p in d2$id) {
   never.same.mat <- linear
   #eboth.mat <- linear
   particip.data <- subset(d2,id==p)
-  for (tn in 1:3) { #1:3) {
+  for (tn in 1:3) {
     cur.df <- subset(particip.data,trial==tn)
     word.row <- c(1,2,3)[as.numeric(cur.df$level)]
     target.col <- target.idx(cur.df$level) # c(3,1,2)[cur.df$level+1]
+    choice.col <- choice.idx(cur.df$choice,cur.df$level)
     response.probs <- rbind.fill(response.probs,
                                  data.frame(particip=p,
                                             trial=tn,
@@ -159,7 +160,13 @@ for (p in d2$id) {
                                             
                                             rp.eref.target=L0(eref.mat)[word.row,target.col],
                                             rp.lex.target=L0(lex.mat)[word.row,target.col],
-                                            rp.never.same.target=L0(lex.mat)[word.row,target.col]
+                                            rp.never.same.target=L0(never.same.mat)[word.row,target.col],
+                                            rp.choice.L0=L0(target.mat)[word.row,choice.col],
+                                            rp.choice.LS=LS(target.mat)[word.row,choice.col],
+                                            
+                                            rp.eref.choice=L0(eref.mat)[word.row,choice.col],
+                                            rp.lex.choice=L0(lex.mat)[word.row,choice.col],
+                                            rp.never.same.choice=L0(never.same.mat)[word.row,choice.col]
                                             #more...
                                             ))
 
